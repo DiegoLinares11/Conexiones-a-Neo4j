@@ -1,7 +1,7 @@
 from neo4j import GraphDatabase
 
 class MovieGraph:
-    def __init__(self, uri, user, password):  # ← Aquí está corregido
+    def __init__(self, uri, user, password):  
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
@@ -48,5 +48,5 @@ graph.create_user("u1", "Alice")
 graph.create_movie(1, "Inception", 2010, "A mind-bending thriller")
 graph.create_rating("u1", 1, 5, 1707168000)
 
-# Cerrar conexión
+# Se cierra conexión
 graph.close()

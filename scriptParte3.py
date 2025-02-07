@@ -20,20 +20,20 @@ class MovieGraph:
                 movie = record["m"]
                 rating = record["r"]
 
-                print("\n🔹 **Usuario encontrado:**")
-                print(f"   🆔 ID: {user['userId']}")
-                print(f"   👤 Nombre: {user['name']}")
+                print("\n **Usuario encontrado:**")
+                print(f"    ID: {user['userId']}")
+                print(f"    Nombre: {user['name']}")
 
-                print("\n🎬 **Película encontrada:**")
-                print(f"   🎥 Título: {movie['title']}")
-                print(f"   📅 Año: {movie['year']}")
-                print(f"   📝 Sinopsis: {movie['plot']}")
+                print("\n **Película encontrada:**")
+                print(f"    Título: {movie['title']}")
+                print(f"    Año: {movie['year']}")
+                print(f"    Sinopsis: {movie['plot']}")
 
-                print("\n⭐ **Relación RATED encontrada:**")
-                print(f"   🎯 Calificación: {rating['rating']}/5")
-                print(f"   ⏳ Timestamp: {rating['timestamp']}")
+                print("\n **Relación RATED encontrada:**")
+                print(f"    Calificación: {rating['rating']}/5")
+                print(f"    Timestamp: {rating['timestamp']}")
             else:
-                print("\n⚠️ No se encontró la relación entre usuario y película.")
+                print("\n No se encontró la relación entre usuario y película.")
 
 # Configurar conexión a Neo4j Aura
 URI = "neo4j+s://6ce8bd8b.databases.neo4j.io"
@@ -46,5 +46,5 @@ graph = MovieGraph(URI, USER, PASSWORD)
 # Buscar usuario, película y relación
 graph.find_user_movie_rating("u2", 1)
 
-# Cerrar conexión
+# Siempre se cierra la conexion. 
 graph.close()

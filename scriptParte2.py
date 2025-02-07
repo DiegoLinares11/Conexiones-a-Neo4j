@@ -2,7 +2,7 @@ from neo4j import GraphDatabase
 from datetime import datetime
 
 class MovieGraph:
-    def __init__(self, uri, user, password):  # ← Aquí está corregido
+    def __init__(self, uri, user, password):  
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
@@ -65,5 +65,5 @@ graph.create_rating("u4", 2, 4, current_timestamp)
 graph.create_rating("u5", 1, 3, current_timestamp)
 graph.create_rating("u5", 2, 5, current_timestamp) 
 
-# Cerrar conexión
+# Se cierra conexión
 graph.close()
