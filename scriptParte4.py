@@ -16,24 +16,31 @@ class MovieGraph:
         with self.driver.session() as session:
             session.run(query, user_id=user_id, name=name)
 
-    def create_movie(self, movie_id, title, year, imdbRating, plot):
+    def create_movie(self, movie_id, title, year, imdbRating, plot, released, runtime, countries, languages, budget, revenue, imdbVotes, poster):
         query = """
         MERGE (m:Movie {movieId: $movie_id})
-        SET m.title = $title, m.year = $year, m.imdbRating = $imdbRating, m.plot = $plot
+        SET m.title = $title, m.year = $year, m.imdbRating = $imdbRating, m.plot = $plot,
+            m.released = $released, m.runtime = $runtime, m.countries = $countries,
+            m.languages = $languages, m.budget = $budget, m.revenue = $revenue,
+            m.imdbVotes = $imdbVotes, m.poster = $poster
         RETURN m
         """
         with self.driver.session() as session:
-            session.run(query, movie_id=movie_id, title=title, year=year, imdbRating=imdbRating, plot=plot)
+            session.run(query, movie_id=movie_id, title=title, year=year, imdbRating=imdbRating, plot=plot,
+                        released=released, runtime=runtime, countries=countries, languages=languages,
+                        budget=budget, revenue=revenue, imdbVotes=imdbVotes, poster=poster)
 
-    def create_person(self, person_id, name, role):
+    def create_person(self, person_id, name, tmdbId, born, died, bornIn, url, imdbId, bio, poster, role):
         label = "Actor" if role == "ACTOR" else "Director"
         query = f"""
         MERGE (p:{label} {{personId: $person_id}})
-        SET p.name = $name
+        SET p.name = $name, p.tmdbId = $tmdbId, p.born = $born, p.died = $died,
+            p.bornIn = $bornIn, p.url = $url, p.imdbId = $imdbId, p.bio = $bio, p.poster = $poster
         RETURN p
         """
         with self.driver.session() as session:
-            session.run(query, person_id=person_id, name=name)
+            session.run(query, person_id=person_id, name=name, tmdbId=tmdbId, born=born, died=died,
+                        bornIn=bornIn, url=url, imdbId=imdbId, bio=bio, poster=poster)
 
     def create_genre(self, name):
         query = """
@@ -74,9 +81,9 @@ graph = MovieGraph(URI, USER, PASSWORD)
 
 # Creacion de los nodos
 graph.create_user("u1", "Alice")
-graph.create_movie(1, "Inception", 2010, 8.8, "A mind-bending thriller")
-graph.create_person("p1", "Leonardo DiCaprio", "ACTOR")
-graph.create_person("p2", "Christopher Nolan", "DIRECTOR")
+graph.create_movie(1, "Inception", 2010, 8.8, "A mind-bending thriller", "2010-07-16", 148, ["USA"], ["English"], 160000000, 829895144, 2000000, "inception.jpg")
+graph.create_person("p1", "Leonardo DiCaprio", 6193, "1974-11-11", None, "USA", "https://www.imdb.com/name/nm0000138/", 123456, "Famous actor", "leo.jpg", "ACTOR")
+graph.create_person("p2", "Christopher Nolan", 525, "1970-07-30", None, "UK", "https://www.imdb.com/name/nm0634240/", 654321, "Director and writer", "nolan.jpg", "DIRECTOR")
 graph.create_genre("Sci-Fi")
 
 # Creacion de las relaciones
